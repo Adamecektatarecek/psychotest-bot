@@ -6,6 +6,7 @@ const { Client, GatewayIntentBits, ModalBuilder, TextInputBuilder,
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 const WEBHOOK_URL = process.env.WEBHOOK_URL;
+const ALLOWED_CHANNEL_ID = '1504979083044589688';
 
 // ── Pomocná funkce: odeslání na webhook ──
 async function sendToWebhook(data) {
@@ -61,7 +62,15 @@ client.on('interactionCreate', async (interaction) => {
 
   // ── /psychotest příkaz ──
   if (interaction.isChatInputCommand() && interaction.commandName === 'psychotest') {
-    // Nejprve Select menu pro typ testu
+
+    // Kontrola kanálu
+    if (interaction.channelId !== ALLOWED_CHANNEL_ID) {
+      return interaction.reply({
+        content: `❌ Tento příkaz lze použít pouze v kanálu <#${ALLOWED_CHANNEL_ID}>!`,
+        ephemeral: true
+      });
+    }
+
     const select = new StringSelectMenuBuilder()
       .setCustomId('select_typ_testu')
       .setPlaceholder('Vyberte typ psychotestu…')
