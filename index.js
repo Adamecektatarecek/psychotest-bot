@@ -36,7 +36,7 @@ async function sendToWebhook(data) {
   const payload = {
     username: 'Psychotesty Bot',
     avatar_url: avatarUrl,
-    content: `@here Nová žádost o psychotesty od <@${user.id}>!`,
+    content: `<@&1504985649818894406> Nová žádost o psychotesty od <@${user.id}>!`,
     embeds: [embed.toJSON()],
     allowed_mentions: { parse: ['everyone', 'users'] }
   };
